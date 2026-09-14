@@ -1,0 +1,14 @@
+/* 6 */
+.active {
+  color: red;
+}
+
+/* 9 */
+.stripped {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* 10 */
+.external {
+  color: brown;
+}
