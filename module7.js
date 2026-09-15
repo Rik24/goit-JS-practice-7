@@ -219,3 +219,152 @@
 // if (linkEl) {
 //   linkEl.removeAttribute('href');
 // }
+
+// TODO 12 Стандартний елемент форми входу: око біля поля пароля перемикає видимість введеного тексту.
+
+// Що зробити:
+// Повісити обробник click на кнопку.
+// Перемикати type поля між password і text.
+// Змінювати текст кнопки на «Показати» / «Сховати».
+// Оновлювати aria-pressed, щоб стан був зрозумілий і скрінрідеру.
+
+// const refs = {
+//   togleButton: document.querySelector('#toggle'),
+//   input: document.querySelector('#pass'),
+// };
+
+// console.log(refs.togleButton);
+
+// refs.togleButton.addEventListener('click', onToggleButton);
+
+// function onToggleButton() {
+//   const isTypePassword = refs.input.type === 'password';
+
+//   refs.input.type = isTypePassword ? 'text' : 'password';
+//   refs.togleButton.textContent = isTypePassword ? 'Сховати' : 'Показати';
+//   refs.togleButton.ariaPressed = true;
+// }
+
+// TODO 13 Форма не має відправлятись, якщо поля заповнені неправильно. Помилки показуємо під конкретними полями.
+
+// Що зробити:
+// Повісити обробник submit на форму і скасувати стандартну відправку.
+// Очистити попередні тексти помилок.
+// Перевірити: імʼя мінімум 2 символи, пошта містить @, пароль від 8 символів.
+// Вивести кожну помилку у відповідний span[data-error].
+// Якщо помилок немає — залогувати «форма валідна».
+
+// const refs = {
+//   signupForm: document.querySelector('#signup'),
+//   inputs: document.querySelectorAll('input'),
+//   signupErrorFields: document.querySelectorAll('.error'),
+// };
+
+// refs.signupForm.addEventListener('submit', onSignupFormSubmit);
+
+// function onSignupFormSubmit(event) {
+//   event.preventDefault();
+
+//   refs.signupErrorFields.forEach(errorField => {
+//     errorField.textContent = '';
+//   });
+
+//   const { name, email, password } = refs.signupForm.elements; // Деструктуризация элементов формы
+//   // console.log(refs.signupForm.elements.password);
+
+//   const errors = [];
+
+//   if (name.value.trim().length < 2) {
+//     errors.push(['name', 'Invalid name']);
+//   }
+
+//   if (!email.value.trim().includes('@')) {
+//     errors.push(['email', 'Invalid email']);
+//   }
+
+//   if (password.value.length < 8) {
+//     errors.push(['password', 'Invalid password']);
+//   }
+
+//   errors.forEach(error => {
+//     refs.signupForm.querySelector(`[data-error="${error[0]}"]`).textContent =
+//       error[1];
+//   });
+
+//   if (errors.length === 0) {
+//     console.log('форма валідна');
+//     refs.signupForm.reset();
+//   }
+// }
+
+// TODO 14 Пост у стрічці: перший клік ставить лайк і збільшує лічильник, повторний — знімає.
+
+// Що зробити:
+// Зберігати стан у змінній liked і поточне число лайків.
+// На click перемикати стан і змінювати число на 1 вгору або вниз.
+// Оновлювати текст лічильника і клас liked на кнопці.
+
+// const refs = {
+//   likeButton: document.querySelector('.like'),
+//   likeCount: document.querySelector('.like .num'),
+// };
+
+// let isLiked = false;
+// let likesAmount = Number(refs.likeCount.textContent);
+
+// refs.likeButton.addEventListener('click', onLikeButtonClick);
+
+// function onLikeButtonClick() {
+//   isLiked = !isLiked;
+//   likesAmount += isLiked ? 1 : -1;
+
+//   refs.likeCount.textContent = likesAmount;
+//   refs.likeButton.classList.toggle('liked', isLiked);
+// }
+
+// TODO 15 Довгий список співробітників фільтрується під час набору тексту, без кнопки «знайти».
+
+// Що зробити:
+// Слухати input на полі пошуку.
+// Порівнювати текст кожного рядка з запитом без урахування регістру.
+// Ховати рядки, що не підходять, через властивість hidden.
+// Показувати кількість знайдених і повідомлення, коли нічого не знайдено.
+
+const refs = {
+  filterInput: document.querySelector('#search'),
+  contacts: document.querySelectorAll('#contacts li'),
+  countFind: document.querySelector('#found'),
+  nothingMessage: document.querySelector('#nothing'),
+};
+
+refs.filterInput.addEventListener('input', onFilterInputSearch);
+
+function onFilterInputSearch() {
+  const inputValue = refs.filterInput.value.trim().toLowerCase();
+  console.log(inputValue);
+
+  let visibleContacts = 0;
+
+  refs.contacts.forEach(contact => {
+    const isMatch = contact.textContent
+      .trim()
+      .toLowerCase()
+      .includes(inputValue);
+
+    contact.hidden = !isMatch;
+    if (isMatch) {
+      visibleContacts += 1;
+    }
+  });
+
+  refs.countFind.textContent = visibleContacts;
+
+  refs.nothingMessage.hidden = visibleContacts !== 0;
+
+  //   const contacts = [...refs.contacts];
+  //   const filteredContacts = contacts.filter(contact =>
+  //     contact.textContent.toLocaleLowerCase().includes(inputValue)
+  //   );
+
+  //   refs.countFind.textContent = filteredContacts.length;
+}

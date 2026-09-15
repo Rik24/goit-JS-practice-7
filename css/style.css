@@ -12,3 +12,19 @@
 .external {
   color: brown;
 }
+
+/* 14 */
+.like {
+  background-color: gray;
+  color: black;
+
+  transition:
+    color linear 250ms,
+    background-color linear 250ms;
+}
+
+.liked {
+  background-color: red;
+  color: white;
+}
+/* 14 */
