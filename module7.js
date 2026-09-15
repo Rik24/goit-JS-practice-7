@@ -332,6 +332,7 @@
 
 const refs = {
   filterInput: document.querySelector('#search'),
+  contactsList: document.querySelector('#contacts'),
   contacts: document.querySelectorAll('#contacts li'),
   countFind: document.querySelector('#found'),
   nothingMessage: document.querySelector('#nothing'),
@@ -341,30 +342,48 @@ refs.filterInput.addEventListener('input', onFilterInputSearch);
 
 function onFilterInputSearch() {
   const inputValue = refs.filterInput.value.trim().toLowerCase();
-  console.log(inputValue);
+  // console.log(inputValue);
 
-  let visibleContacts = 0;
+  // * forEach
+  // let visibleContacts = 0;
 
-  refs.contacts.forEach(contact => {
-    const isMatch = contact.textContent
-      .trim()
-      .toLowerCase()
-      .includes(inputValue);
+  // refs.contacts.forEach(contact => {
+  //   const isMatch = contact.textContent
+  //     .trim()
+  //     .toLowerCase()
+  //     .includes(inputValue);
 
-    contact.hidden = !isMatch;
-    if (isMatch) {
-      visibleContacts += 1;
-    }
-  });
+  //   contact.hidden = !isMatch;
+  //   if (isMatch) {
+  //     visibleContacts += 1;
+  //   }
+  // });
 
-  refs.countFind.textContent = visibleContacts;
+  // refs.countFind.textContent = visibleContacts;
 
-  refs.nothingMessage.hidden = visibleContacts !== 0;
+  // refs.nothingMessage.hidden = visibleContacts !== 0;
 
-  //   const contacts = [...refs.contacts];
-  //   const filteredContacts = contacts.filter(contact =>
-  //     contact.textContent.toLocaleLowerCase().includes(inputValue)
-  //   );
+  //  АБО
 
-  //   refs.countFind.textContent = filteredContacts.length;
+  // * innerHTML
+  const contacts = [...refs.contacts];
+  const filteredContacts = contacts.filter(contact =>
+    contact.textContent.toLocaleLowerCase().includes(inputValue)
+  );
+
+  refs.countFind.textContent = filteredContacts.length;
+  //*
+  const markup = filteredContacts
+    .map(
+      contact => `
+    <li>${contact.textContent}</li>
+    `
+    )
+    .join('');
+
+  //*innerHTML
+  refs.contactsList.innerHTML = markup; // innerHTML = markup
+  // * insertAdjacentHTML
+  // refs.contactsList.insertAdjacentHTML('beforeend', markup); // insertAdjacentHTML('beforeend', markup)
+  refs.nothingMessage.hidden = filteredContacts.length !== 0;
 }
